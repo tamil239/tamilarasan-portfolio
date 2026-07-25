@@ -1,130 +1,205 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
+import { useState, useMemo, useRef } from "react";
 import { projects } from "@/lib/data";
+import { Search, ExternalLink, Github } from "lucide-react";
 
-const projectImages = [
-  "/images/dermai.png",
-  "/images/pearl.png",
-  "/images/colorization.png",
-  "/images/pet.png"
-];
+const projectCategories: Record<string, string> = {
+  "DermAI — Skin Disease Prediction Model": "ai vision",
+  "Pearl — Women's Health Tracking & PCOD Diet Guide App": "ai fullstack",
+  "Semantic-Aware Grayscale Video Colorization": "ai vision",
+  "Pet Monitoring Web Application": "iot fullstack"
+};
+
+const projectGradients: Record<string, string> = {
+  "DermAI — Skin Disease Prediction Model":
+    "linear-gradient(135deg, #10B981 0%, #059669 50%, #047857 100%)",
+  "Pearl — Women's Health Tracking & PCOD Diet Guide App":
+    "linear-gradient(135deg, #EC4899 0%, #D97706 50%, #B45309 100%)",
+  "Semantic-Aware Grayscale Video Colorization":
+    "linear-gradient(135deg, #6366F1 0%, #4F46E5 50%, #4338CA 100%)",
+  "Pet Monitoring Web Application":
+    "linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #B45309 100%)"
+};
 
 export default function Projects() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeFilter, setActiveFilter] = useState("all");
 
-  // Auto-switch every 4 seconds, pauses on hover
-  useEffect(() => {
-    if (isPaused) return;
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % projects.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [isPaused]);
+  const filteredProjects = useMemo(() => {
+    return projects.filter((project) => {
+      const category = projectCategories[project.name] || "ai";
+      const matchesFilter =
+        activeFilter === "all" || category.includes(activeFilter);
+
+      const q = searchQuery.toLowerCase().trim();
+      const matchesSearch =
+        q === "" ||
+        project.name.toLowerCase().includes(q) ||
+        project.description.toLowerCase().includes(q) ||
+        project.tech.some((t) => t.toLowerCase().includes(q));
+
+      return matchesFilter && matchesSearch;
+    });
+  }, [searchQuery, activeFilter]);
+
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
+    const card = cardRefs.current[index];
+    if (!card) return;
+    const r = card.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    card.style.transform = `rotateY(${px * 6}deg) rotateX(${-py * 6}deg) translateY(-4px)`;
+  };
+
+  const handleMouseLeave = (index: number) => {
+    const card = cardRefs.current[index];
+    if (!card) return;
+    card.style.transform = "";
+  };
 
   return (
-    <section
-      id="projects"
-      className="flex min-h-0 md:min-h-screen flex-col justify-center bg-black px-5 sm:px-6 py-16 md:px-10 md:py-32"
-    >
-      <div className="mx-auto w-full max-w-[1274px]">
-        <div>
-          <p className="font-body mb-4 md:mb-6 flex items-center gap-3 text-sm uppercase tracking-[0.25em] text-white/50">
-            <span className="dot-loop h-2 w-2 rounded-full bg-accent"></span>
-            Featured Projects
-          </p>
-          <h2 className="font-display text-[clamp(32px,8vw,80px)] leading-[0.9] tracking-[-0.03em] text-white">
-            Featured Work
-          </h2>
-          <p className="font-body mt-4 md:mt-6 max-w-[760px] text-[clamp(15px,3.5vw,26px)] sm:text-[clamp(18px,2.2vw,26px)] leading-snug tracking-tight text-white/70">
-            AI models, computer vision applications, and full-stack platforms designed to solve real-world problems.
-          </p>
+    <section id="projects">
+      <div className="wrap">
+        <div className="eyebrow">PORTFOLIO</div>
+        <h2 className="section-title">Featured Work</h2>
+        <p className="section-sub">
+          AI models, computer vision applications, and full-stack IoT platforms built for real-world impact.
+        </p>
+
+        <div className="proj-toolbar">
+          <div className="proj-search glass">
+            <Search size={16} style={{ color: "var(--text-dim)" }} />
+            <input
+              type="text"
+              placeholder="Search projects or tech stack..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+
+          <div className="filter-row">
+            <button
+              className={`filter-btn ${activeFilter === "all" ? "active" : ""}`}
+              onClick={() => setActiveFilter("all")}
+            >
+              All Projects
+            </button>
+            <button
+              className={`filter-btn ${activeFilter === "ai" ? "active" : ""}`}
+              onClick={() => setActiveFilter("ai")}
+            >
+              AI / ML
+            </button>
+            <button
+              className={`filter-btn ${activeFilter === "vision" ? "active" : ""}`}
+              onClick={() => setActiveFilter("vision")}
+            >
+              Computer Vision
+            </button>
+            <button
+              className={`filter-btn ${activeFilter === "fullstack" ? "active" : ""}`}
+              onClick={() => setActiveFilter("fullstack")}
+            >
+              Full Stack
+            </button>
+            <button
+              className={`filter-btn ${activeFilter === "iot" ? "active" : ""}`}
+              onClick={() => setActiveFilter("iot")}
+            >
+              IoT
+            </button>
+          </div>
         </div>
 
-        <div
-          className="mt-10 md:mt-20"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
+        {filteredProjects.length === 0 ? (
           <div
-            data-cursor-hover="true"
-            className="relative block overflow-hidden rounded-2xl md:rounded-[20px] bg-neutral-900 w-full h-[50vh] sm:h-[55vh] md:h-[70vh]"
+            style={{
+              textAlign: "center",
+              padding: "60px 0",
+              color: "var(--text-faint)",
+              fontFamily: "var(--font-mono)"
+            }}
           >
-            {projects.map((project, idx) => (
-              <div
-                key={idx}
-                className="absolute inset-0 transition-opacity duration-700 ease-in-out"
-                style={{ opacity: activeIndex === idx ? 1 : 0 }}
-              >
-                <Image
-                  src={projectImages[idx] || "/images/dermai.png"}
-                  alt={project.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ))}
+            No projects matching your search.
+          </div>
+        ) : (
+          <div className="projects-grid">
+            {filteredProjects.map((project, idx) => {
+              const bgGradient =
+                projectGradients[project.name] ||
+                "linear-gradient(135deg, #10B981, #059669)";
 
-            {/* Gradient overlay */}
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-3/4 bg-gradient-to-t from-black/95 via-black/50 to-transparent"></div>
+              return (
+                <div
+                  key={idx}
+                  ref={(el) => {
+                    cardRefs.current[idx] = el;
+                  }}
+                  className="proj-card glass grad-border"
+                  onMouseMove={(e) => handleMouseMove(e, idx)}
+                  onMouseLeave={() => handleMouseLeave(idx)}
+                >
+                  <div className="proj-banner" style={{ background: bgGradient }}>
+                    <div className="mesh" />
+                    <span className="tag-float">
+                      {project.tech[0] || "AI System"}
+                    </span>
+                  </div>
 
-            {/* Counter badge */}
-            <span className="pointer-events-none absolute left-4 top-4 sm:left-5 sm:top-5 z-20 rounded-full border border-white/15 bg-black/45 px-2.5 py-1 sm:px-3 sm:py-1.5 font-body text-xs tracking-[0.25em] text-white backdrop-blur-md">
-              0{activeIndex + 1} / 0{projects.length}
-            </span>
+                  <div className="proj-body">
+                    <h3>{project.name}</h3>
 
-            {/* Progress bar */}
-            <div className="pointer-events-none absolute top-4 left-16 right-4 sm:top-5 sm:left-20 sm:right-5 z-20 flex gap-1.5 sm:gap-2 items-center">
-              {projects.map((_, idx) => (
-                <div key={idx} className="flex-1 h-[2px] bg-white/20 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-accent rounded-full transition-all duration-300"
-                    style={{ width: activeIndex === idx ? "100%" : activeIndex > idx ? "100%" : "0%" }}
-                  />
+                    <div className="proj-block">
+                      <div className="lbl">OVERVIEW</div>
+                      <p>{project.description}</p>
+                    </div>
+
+                    <div className="proj-block">
+                      <div className="lbl">KEY HIGHLIGHTS</div>
+                      <div className="proj-features">
+                        {project.highlights.map((h, hIdx) => (
+                          <span key={hIdx}>✓ {h}</span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="proj-tech">
+                      {project.tech.map((t, tIdx) => (
+                        <span key={tIdx}>{t}</span>
+                      ))}
+                    </div>
+
+                    <div className="proj-links">
+                      <a
+                        href={project.githubUrl || "https://github.com/tamil239"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-ghost"
+                        data-cursor="hover"
+                      >
+                        <Github size={14} style={{ display: "inline", marginRight: "6px" }} />
+                        GitHub
+                      </a>
+                      <a
+                        href={project.liveUrl || "#"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="primary"
+                        data-cursor="hover"
+                      >
+                        Live Demo
+                        <ExternalLink size={14} style={{ display: "inline", marginLeft: "6px" }} />
+                      </a>
+                    </div>
+                  </div>
                 </div>
-              ))}
-            </div>
-
-            {/* Project info overlay */}
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 p-5 sm:p-7 md:p-10">
-              <h3 className="font-display text-[clamp(20px,5vw,44px)] sm:text-[clamp(26px,3.2vw,44px)] font-medium leading-tight text-white">
-                {projects[activeIndex].name}
-              </h3>
-              <p className="font-body mt-1.5 sm:mt-2 max-w-[560px] text-[13px] sm:text-[15px] leading-relaxed text-white/75 md:text-[16px]">
-                {projects[activeIndex].description}
-              </p>
-              <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-3 sm:mt-4">
-                {projects[activeIndex].tech.map((t, i) => (
-                  <span
-                    key={i}
-                    className="font-body rounded-full border border-white/20 bg-white/5 px-2.5 py-0.5 sm:px-3 sm:py-1 text-[11px] sm:text-xs tracking-wide text-white/70"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
+              );
+            })}
           </div>
-
-          {/* Tab selector */}
-          <div className="mt-4 sm:mt-6 flex flex-wrap justify-center gap-x-4 sm:gap-x-7 gap-y-2 border-t border-white/10 pt-4 sm:pt-5">
-            {projects.map((project, idx) => (
-              <button
-                key={idx}
-                type="button"
-                data-cursor-hover="true"
-                onClick={() => { setActiveIndex(idx); setIsPaused(true); }}
-                onMouseEnter={() => setActiveIndex(idx)}
-                className="font-body text-[13px] sm:text-[15px] transition-all duration-300 md:text-base font-medium hover:text-accent"
-                style={{ color: activeIndex === idx ? "#C6F13D" : "rgba(255,255,255,0.4)" }}
-              >
-                {project.name.split("—")[0].trim()}
-              </button>
-            ))}
-          </div>
-        </div>
+        )}
       </div>
     </section>
   );

@@ -1,50 +1,65 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export default function CustomCursor() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [hovering, setHovering] = useState(false);
+  const dotRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const updatePosition = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
+    const dot = dotRef.current;
+    const ring = ringRef.current;
+    if (!dot || !ring) return;
+
+    let mx = 0;
+    let my = 0;
+    let rx = 0;
+    let ry = 0;
+    let rafId: number;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mx = e.clientX;
+      my = e.clientY;
+      dot.style.left = `${mx}px`;
+      dot.style.top = `${my}px`;
     };
 
-    const updateHoverState = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      // If hovering over a link, button, or anything with cursor: pointer
-      const isHoverable =
-        target.closest("a") ||
-        target.closest("button") ||
-        window.getComputedStyle(target).cursor === "pointer" ||
-        target.getAttribute("data-cursor-hover") === "true";
-
-      setHovering(!!isHoverable);
+    const ringLoop = () => {
+      rx += (mx - rx) * 0.18;
+      ry += (my - ry) * 0.18;
+      ring.style.left = `${rx}px`;
+      ring.style.top = `${ry}px`;
+      rafId = requestAnimationFrame(ringLoop);
     };
 
-    window.addEventListener("mousemove", updatePosition);
-    window.addEventListener("mouseover", updateHoverState);
+    ringLoop();
+
+    const handleMouseEnter = () => ring.classList.add("active");
+    const handleMouseLeave = () => ring.classList.remove("active");
+
+    const addHoverListeners = () => {
+      const elements = document.querySelectorAll(
+        'a, button, [data-cursor="hover"], .proj-card, .filter-btn, .chip, .skill-card, .quick-fact'
+      );
+      elements.forEach((el) => {
+        el.addEventListener("mouseenter", handleMouseEnter);
+        el.addEventListener("mouseleave", handleMouseLeave);
+      });
+    };
+
+    addHoverListeners();
+    window.addEventListener("mousemove", handleMouseMove);
 
     return () => {
-      window.removeEventListener("mousemove", updatePosition);
-      window.removeEventListener("mouseover", updateHoverState);
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
 
-  // Hide on touch devices
-  if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
-    return null;
-  }
-
   return (
-    <div
-      id="custom-cursor"
-      className={hovering ? "hovering" : ""}
-      style={{
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-      }}
-    />
+    <>
+      <div className="cursor-dot" ref={dotRef} />
+      <div className="cursor-ring" ref={ringRef} />
+    </>
   );
 }

@@ -1,19 +1,26 @@
-import Navbar from "@/components/Navbar";
+import Loader from "@/components/Loader";
+import ScrollProgress from "@/components/ScrollProgress";
+import BackgroundCanvas from "@/components/BackgroundCanvas";
+import CustomCursor from "@/components/CustomCursor";
+import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import Stats from "@/components/Stats";
 import About from "@/components/About";
-import Marquee from "@/components/Marquee";
+import Timeline from "@/components/Timeline";
+import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
-import Experience from "@/components/Experience";
-import Miscellaneous from "@/components/Miscellaneous";
+import CertificationsAchievements from "@/components/CertificationsAchievements";
+import GitHubSection from "@/components/GitHubSection";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import BackToTop from "@/components/BackToTop";
 import { contactInfo, socials } from "@/lib/data";
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Tamilarasan S",
-  jobTitle: "Artificial Intelligence & Machine Learning Developer",
+  jobTitle: "Artificial Intelligence & Data Science Student",
   email: contactInfo.email,
   telephone: contactInfo.phone,
   address: {
@@ -32,6 +39,7 @@ const jsonLd = {
     "Machine Learning",
     "Computer Vision",
     "Deep Learning",
+    "Data Science",
     "Internet of Things"
   ]
 };
@@ -41,20 +49,26 @@ export default function Home() {
     <>
       <script
         type="application/ld+json"
-        // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Navbar />
-      <main id="main-content" className="relative z-10 bg-black">
+      <Loader />
+      <ScrollProgress />
+      <CustomCursor />
+      <BackgroundCanvas />
+      <Header />
+      <main id="main-content">
         <Hero />
-        <Marquee />
+        <Stats />
         <About />
+        <Timeline />
+        <Skills />
         <Projects />
-        <Miscellaneous />
-        <Experience />
+        <CertificationsAchievements />
+        <GitHubSection />
         <Contact />
       </main>
       <Footer />
+      <BackToTop />
     </>
   );
 }

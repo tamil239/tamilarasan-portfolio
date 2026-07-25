@@ -1,46 +1,95 @@
-import Reveal from "./Reveal";
+"use client";
+
+import { useEffect, useRef } from "react";
 import { skillGroups } from "@/lib/data";
 
-export default function Skills() {
-  return (
-    <section id="skills" className="section-padding bg-bg-secondary/40" aria-label="Skills">
-      <div className="container-content">
-        <Reveal>
-          <p className="text-[11px] uppercase tracking-[0.22em] text-accent mb-4">
-            Skills
-          </p>
-        </Reveal>
-        <Reveal delay={0.06}>
-          <h2 className="font-display font-bold text-3xl sm:text-4xl tracking-tight mb-14 max-w-2xl">
-            A toolkit built for applied AI, end to end.
-          </h2>
-        </Reveal>
+const skillCategoryIcons: Record<string, string> = {
+  "AI & Machine Learning": "🧠",
+  "Programming Languages": "💻",
+  "Libraries & Frameworks": "⚡",
+  "Databases": "🗄️",
+  "Tools & Technologies": "🛠️",
+  "Domains": "🌐",
+  "Professional Skills": "🎯"
+};
 
-        <Reveal
-          stagger={0.08}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
-        >
-          {skillGroups.map((group) => (
-            <div
-              key={group.title}
-              className="group rounded-2xl border border-border bg-card p-7 transition-all duration-300 hover:border-accent/40 hover:-translate-y-1"
-            >
-              <h3 className="font-display font-semibold text-sm uppercase tracking-[0.14em] text-text-primary mb-5">
-                {group.title}
-              </h3>
-              <ul className="flex flex-wrap gap-2.5">
-                {group.skills.map((skill) => (
-                  <li
-                    key={skill}
-                    className="text-sm text-text-secondary bg-bg/60 border border-border rounded-full px-3.5 py-1.5 transition-colors duration-300 group-hover:border-accent/30 hover:!text-accent hover:!border-accent/60"
-                  >
-                    {skill}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </Reveal>
+const skillLevels: Record<string, number> = {
+  "AI & Machine Learning": 92,
+  "Programming Languages": 88,
+  "Libraries & Frameworks": 90,
+  "Databases": 82,
+  "Tools & Technologies": 85,
+  "Domains": 94,
+  "Professional Skills": 95
+};
+
+export default function Skills() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const fillBars = entry.target.querySelectorAll(".skill-bar-fill");
+            fillBars.forEach((bar) => {
+              const element = bar as HTMLElement;
+              element.style.width = `${element.dataset.progress || 80}%`;
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section id="skills">
+      <div className="wrap" ref={containerRef}>
+        <div className="eyebrow">CAPABILITIES</div>
+        <h2 className="section-title">Skills &amp; Technical Toolkit</h2>
+        <p className="section-sub">
+          A broad suite of AI frameworks, programming languages, and engineering tools built for applied intelligence.
+        </p>
+
+        <div className="skills-grid">
+          {skillGroups.map((group, idx) => {
+            const icon = skillCategoryIcons[group.title] || "🚀";
+            const level = skillLevels[group.title] || 85;
+
+            return (
+              <div key={idx} className="skill-card glass grad-border">
+                <div className="skill-head">
+                  <div className="skill-ico">{icon}</div>
+                  <h3>{group.title}</h3>
+                </div>
+
+                <div className="skill-tags">
+                  {group.skills.map((skill, sIdx) => (
+                    <span key={sIdx} className="skill-tag">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="skill-bar-track">
+                  <div className="skill-bar-fill" data-progress={level} />
+                </div>
+                <div className="skill-bar-label">
+                  <span>Proficiency</span>
+                  <span>{level}%</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

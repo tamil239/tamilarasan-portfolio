@@ -1,72 +1,110 @@
 "use client";
 
-import { useState, useEffect } from "react";
-
-type Role = "For anyone" | "Recruiters" | "Engineers" | "Collaborators";
-
-const intros: Record<Role, string> = {
-  "For anyone": "I'm Tamilarasan S — an AI & Data Science undergraduate who blends machine learning, computer vision, and IoT into functional solutions that tackle real-world problems.",
-  "Recruiters": "I'm a highly motivated AI Developer with a CGPA of 8.05. I specialize in Python, PyTorch, and deep learning architectures like ConvNeXt and ResNet. I'm actively seeking opportunities to build impactful AI systems.",
-  "Engineers": "I'm a tech-driven problem solver. I enjoy architecting robust models using frameworks like PyTorch and FastAPI, and prototyping IoT hardware solutions with Arduino. Let's talk system design.",
-  "Collaborators": "I believe the best tech is built together. I thrive in cross-functional environments, bridging the gap between data science algorithms and user-centric application development."
-};
+import { MapPin, GraduationCap, Cpu, Sparkles } from "lucide-react";
 
 export default function About() {
-  const [activeRole, setActiveRole] = useState<Role>("For anyone");
-  const [isPaused, setIsPaused] = useState(false);
-
-  useEffect(() => {
-    if (isPaused) return;
-    const roles = Object.keys(intros) as Role[];
-    const interval = setInterval(() => {
-      setActiveRole((current) => {
-        const nextIndex = (roles.indexOf(current) + 1) % roles.length;
-        return roles[nextIndex];
-      });
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [isPaused]);
-
   return (
-    <section id="about" className="flex min-h-0 md:min-h-[100svh] items-center overflow-hidden bg-black px-5 sm:px-6 py-16 md:py-24 md:px-10">
-      <div 
-        className="mx-auto flex w-full max-w-[1274px] flex-col gap-8 md:gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-16"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-      >
-        <div className="flex shrink-0 flex-col items-start lg:w-[240px] lg:pt-1">
-          <h2 className="font-display font-medium text-[clamp(36px,8vw,80px)] leading-[0.9] tracking-[-0.03em] text-white">Intro</h2>
-          <nav className="mt-5 md:mt-8 flex flex-row flex-wrap md:flex-col items-start gap-x-4 gap-y-1 md:gap-1">
-            {(Object.keys(intros) as Role[]).map((role) => (
-              <button
-                key={role}
-                type="button"
-                data-cursor-hover="true"
-                onClick={() => setActiveRole(role)}
-                onMouseEnter={() => setActiveRole(role)}
-                className={`group font-body flex items-center gap-2 md:gap-3 py-1.5 md:py-2 text-left text-[15px] md:text-[18px] transition-colors duration-200 lg:text-[20px] ${
-                  activeRole === role ? "text-white" : "text-white/40 hover:text-white/75"
-                }`}
-              >
-                <span
-                  className={`block h-px bg-current transition-all duration-300 ${
-                    activeRole === role ? "w-6 md:w-9 opacity-100" : "w-3 md:w-4 opacity-40 group-hover:w-6"
-                  }`}
-                ></span>
-                {role}
-              </button>
-            ))}
-          </nav>
-        </div>
-        
-        <div className="w-full lg:max-w-[790px] lg:flex-1">
-          <div className="relative min-h-[200px] sm:min-h-[280px] overflow-hidden p-0 sm:p-4 md:h-[500px] md:p-11 lg:h-[450px]">
-            <p
-              key={activeRole} // Force re-render for animation
-              className="font-display text-[20px] sm:text-[26px] font-normal leading-[1.3] tracking-[-0.01em] md:text-[44px] animate-fade-in-up text-white"
-            >
-              {intros[activeRole]}
+    <section id="about">
+      <div className="wrap">
+        <div className="about-layout">
+          <div className="about-left">
+            <div className="eyebrow">Biography</div>
+            <h2 className="section-title">About Me</h2>
+            <div className="about-accent-line" />
+            <p className="about-tagline">
+              Blending machine learning, computer vision, and IoT into functional
+              solutions for real-world impact.
             </p>
+
+            <div className="quick-facts" style={{ marginTop: "28px" }}>
+              <div className="quick-fact glass" data-cursor="hover">
+                <div className="qf-ico">
+                  <MapPin size={17} />
+                </div>
+                <div>
+                  <div style={{ fontSize: "11px", color: "var(--text-faint)", fontFamily: "var(--font-mono)" }}>
+                    LOCATION
+                  </div>
+                  <div>Sivakasi, Tamil Nadu, India</div>
+                </div>
+              </div>
+
+              <div className="quick-fact glass" data-cursor="hover">
+                <div className="qf-ico">
+                  <GraduationCap size={17} />
+                </div>
+                <div>
+                  <div style={{ fontSize: "11px", color: "var(--text-faint)", fontFamily: "var(--font-mono)" }}>
+                    COLLEGE
+                  </div>
+                  <div>Dr. MCET (CGPA 8.05)</div>
+                </div>
+              </div>
+
+              <div className="quick-fact glass" data-cursor="hover">
+                <div className="qf-ico">
+                  <Cpu size={17} />
+                </div>
+                <div>
+                  <div style={{ fontSize: "11px", color: "var(--text-faint)", fontFamily: "var(--font-mono)" }}>
+                    FOCUS
+                  </div>
+                  <div>AI, Machine Learning &amp; Computer Vision</div>
+                </div>
+              </div>
+
+              <div className="quick-fact glass" data-cursor="hover">
+                <div className="qf-ico">
+                  <Sparkles size={17} />
+                </div>
+                <div>
+                  <div style={{ fontSize: "11px", color: "var(--text-faint)", fontFamily: "var(--font-mono)" }}>
+                    STATUS
+                  </div>
+                  <div>Final Year B.Tech Student</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="about-right">
+            <div className="about-card glass grad-border">
+              <div className="about-card-label">PASSION &amp; EXPERTISE</div>
+              <p>
+                I&apos;m <strong>Tamilarasan S</strong>, an Artificial Intelligence &amp;
+                Data Science undergraduate at Dr. Mahalingam College of Engineering and
+                Technology. I specialize in developing practical machine learning
+                models, computer vision pipelines, and full-stack AI integrations.
+              </p>
+
+              <p>
+                My technical journey spans deep learning architectures such as ConvNeXt,
+                ResNet, and Attention-Guided U-Nets, paired with framework experience in
+                PyTorch, OpenCV, and FastAPI. I am also passionate about IoT and hardware
+                prototyping with Arduino.
+              </p>
+
+              <p>
+                Whether it&apos;s building clinical-assistive AI applications like
+                DermAI (achieving 96.0% precision), women&apos;s health platforms like Pearl,
+                or IoT monitoring applications, I thrive at the intersection of data science
+                and user-centric software development.
+              </p>
+
+              <div className="about-card-label" style={{ marginTop: "28px" }}>
+                CORE INTERESTS
+              </div>
+              <div className="chip-row">
+                <span className="chip">Machine Learning</span>
+                <span className="chip">Deep Learning</span>
+                <span className="chip">Computer Vision</span>
+                <span className="chip">FastAPI</span>
+                <span className="chip">PyTorch</span>
+                <span className="chip">IoT &amp; Arduino</span>
+                <span className="chip">Data Analytics</span>
+                <span className="chip">Full Stack AI</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

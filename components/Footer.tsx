@@ -1,15 +1,27 @@
+"use client";
+
+import Link from "next/link";
+
 export default function Footer() {
-  const year = new Date().getFullYear();
+  const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-black py-8 border-t border-white/10" role="contentinfo">
-      <div className="container-content flex flex-col md:flex-row items-center justify-between gap-4">
-        <p className="font-display font-medium text-lg text-white">
-          Tamilarasan S<span className="text-accent">.</span>
-        </p>
-        <p className="font-body text-sm text-white/40">
-          © {year} Tamilarasan S. All rights reserved.
-        </p>
+    <footer>
+      <div className="wrap">
+        <div className="footer-inner">
+          <p>© {currentYear} Tamilarasan S. All rights reserved.</p>
+
+          <p className="credit">
+            Crafted with <span>Intelligence</span> &amp; Precision
+          </p>
+
+          <div style={{ display: "flex", gap: "18px", fontSize: "13px", fontFamily: "var(--font-mono)", color: "var(--text-dim)" }}>
+            <Link href="#home">Home</Link>
+            <Link href="#about">About</Link>
+            <Link href="#projects">Projects</Link>
+            <Link href="#contact">Contact</Link>
+          </div>
+        </div>
       </div>
     </footer>
   );
