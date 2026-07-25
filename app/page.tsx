@@ -76,6 +76,7 @@ export default function Home() {
       <Header
         onOpenTerminal={() => setIsTerminalOpen(true)}
         onOpenDermAi={() => setIsDermAiOpen(true)}
+        onOpenResume={() => setIsResumeOpen(true)}
       />
 
       <main id="main-content">

@@ -2,14 +2,16 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Sun, Moon, Terminal as TerminalIcon, Sparkles } from "lucide-react";
+import { Sun, Moon, Terminal as TerminalIcon, Sparkles, FileText } from "lucide-react";
 
 export default function Header({
   onOpenTerminal,
-  onOpenDermAi
+  onOpenDermAi,
+  onOpenResume
 }: {
   onOpenTerminal?: () => void;
   onOpenDermAi?: () => void;
+  onOpenResume?: () => void;
 }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -35,6 +37,14 @@ export default function Header({
   };
 
   const closeMenu = () => setMenuOpen(false);
+
+  const handleResumeClick = (e: React.MouseEvent) => {
+    closeMenu();
+    if (onOpenResume) {
+      e.preventDefault();
+      onOpenResume();
+    }
+  };
 
   return (
     <header id="header" className={scrolled ? "scrolled" : ""}>
@@ -78,6 +88,22 @@ export default function Header({
           <li>
             <a href="#contact" className="nav-link" onClick={closeMenu}>
               Contact
+            </a>
+          </li>
+          <li>
+            <a
+              href="/resume"
+              className="nav-link highlight"
+              onClick={handleResumeClick}
+              style={{
+                color: "var(--accent)",
+                fontWeight: 600,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "4px"
+              }}
+            >
+              <FileText size={14} /> Resume
             </a>
           </li>
         </ul>
