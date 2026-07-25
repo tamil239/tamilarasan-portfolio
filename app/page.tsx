@@ -3,6 +3,7 @@ import ScrollProgress from "@/components/ScrollProgress";
 import BackgroundCanvas from "@/components/BackgroundCanvas";
 import CustomCursor from "@/components/CustomCursor";
 import ScrollReveal from "@/components/ScrollReveal";
+import CyberPet from "@/components/CyberPet";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Stats from "@/components/Stats";
@@ -56,6 +57,7 @@ export default function Home() {
       <ScrollProgress />
       <CustomCursor />
       <ScrollReveal />
+      <CyberPet />
       <BackgroundCanvas />
       <Header />
       <main id="main-content">
