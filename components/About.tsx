@@ -7,9 +7,11 @@ export default function About() {
   return (
     <section id="about">
       <div className="wrap">
-        <div className="eyebrow">SYSTEM ARCHITECTURE AND BIOGRAPHY</div>
-        <h2 className="section-title">Engineering Philosophy</h2>
-        <p className="section-sub">
+        <div className="eyebrow reveal">
+          SYSTEM ARCHITECTURE AND BIOGRAPHY
+        </div>
+        <h2 className="section-title reveal reveal-delay-1">Engineering Philosophy</h2>
+        <p className="section-sub reveal reveal-delay-2">
           Bridging machine learning models, computer vision pipelines, and full-stack software for real-world impact.
         </p>
 
@@ -22,7 +24,7 @@ export default function About() {
           }}
         >
           <div
-            className="glass grad-border"
+            className="glass grad-border reveal reveal-delay-1"
             style={{
               gridColumn: "span 7",
               padding: "36px",
@@ -89,7 +91,7 @@ export default function About() {
           </div>
 
           <div
-            className="glass grad-border"
+            className="glass grad-border reveal reveal-delay-2"
             style={{
               gridColumn: "span 5",
               padding: "32px",
@@ -162,7 +164,7 @@ export default function About() {
           </div>
 
           <div
-            className="glass grad-border"
+            className="glass grad-border reveal reveal-delay-3"
             style={{
               gridColumn: "span 12",
               padding: "24px 32px",

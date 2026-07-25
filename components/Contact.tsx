@@ -23,14 +23,14 @@ export default function Contact() {
   return (
     <section id="contact">
       <div className="wrap">
-        <div className="eyebrow">GET IN TOUCH</div>
-        <h2 className="section-title">Let&apos;s Connect</h2>
-        <p className="section-sub">
+        <div className="eyebrow reveal">GET IN TOUCH</div>
+        <h2 className="section-title reveal reveal-delay-1">Let&apos;s Connect</h2>
+        <p className="section-sub reveal reveal-delay-2">
           Have a project, research collaboration, or opportunity in mind? Feel free to reach out!
         </p>
 
         <div className="contact-grid">
-          <div className="contact-info">
+          <div className="contact-info reveal reveal-delay-1">
             <div className="item">
               <div className="ico">
                 <Mail size={18} style={{ color: "var(--accent)" }} />
@@ -89,7 +89,7 @@ export default function Contact() {
             </div>
           </div>
 
-          <div>
+          <div className="reveal reveal-delay-2">
             <form className="glass grad-border" onSubmit={handleSubmit}>
               <div className="field">
                 <label htmlFor="cf-name">YOUR NAME</label>

@@ -53,9 +53,9 @@ export default function Skills() {
   return (
     <section id="skills">
       <div className="wrap" ref={containerRef}>
-        <div className="eyebrow">CAPABILITIES</div>
-        <h2 className="section-title">Skills &amp; Technical Toolkit</h2>
-        <p className="section-sub">
+        <div className="eyebrow reveal">CAPABILITIES</div>
+        <h2 className="section-title reveal reveal-delay-1">Skills &amp; Technical Toolkit</h2>
+        <p className="section-sub reveal reveal-delay-2">
           A broad suite of AI frameworks, programming languages, and engineering tools built for applied intelligence.
         </p>
 
@@ -65,7 +65,7 @@ export default function Skills() {
             const level = skillLevels[group.title] || 85;
 
             return (
-              <div key={idx} className="skill-card glass grad-border">
+              <div key={idx} className={`skill-card glass grad-border reveal reveal-delay-${(idx % 3) + 1}`}>
                 <div className="skill-head">
                   <div className="skill-ico">{icon}</div>
                   <h3>{group.title}</h3>

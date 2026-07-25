@@ -66,14 +66,14 @@ export default function Projects() {
   return (
     <section id="projects">
       <div className="wrap">
-        <div className="eyebrow">FEATURED LABS</div>
-        <h2 className="section-title">AI Models &amp; Engineering Projects</h2>
-        <p className="section-sub">
+        <div className="eyebrow reveal">FEATURED LABS</div>
+        <h2 className="section-title reveal reveal-delay-1">AI Models &amp; Engineering Projects</h2>
+        <p className="section-sub reveal reveal-delay-2">
           A showcase of deep learning platforms, computer vision applications, and IoT prototypes.
         </p>
 
         <div
-          className="glass grad-border"
+          className="glass grad-border reveal reveal-delay-1"
           style={{
             marginBottom: "40px",
             padding: "36px",
@@ -166,7 +166,7 @@ export default function Projects() {
           </div>
         </div>
 
-        <div className="proj-toolbar">
+        <div className="proj-toolbar reveal reveal-delay-2">
           <div className="proj-search glass">
             <Search size={16} style={{ color: "var(--text-dim)" }} />
             <input
@@ -235,7 +235,7 @@ export default function Projects() {
                   ref={(el) => {
                     cardRefs.current[idx] = el;
                   }}
-                  className="proj-card glass grad-border"
+                  className={`proj-card glass grad-border reveal reveal-delay-${(idx % 3) + 1}`}
                   onMouseMove={(e) => handleMouseMove(e, idx)}
                   onMouseLeave={() => handleMouseLeave(idx)}
                 >

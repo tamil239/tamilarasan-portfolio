@@ -56,10 +56,10 @@ export default function Stats() {
   }, []);
 
   return (
-    <div className="wrap" ref={containerRef}>
+    <div className="wrap reveal" ref={containerRef}>
       <div className="stats-grid">
         {stats.map((stat, i) => (
-          <div key={i} className="stat glass grad-border">
+          <div key={i} className={`stat glass grad-border reveal reveal-delay-${(i % 4) + 1}`}>
             <div className="stat-num">
               {stat.decimal ? counts[i].toFixed(2) : Math.floor(counts[i])}
               {stat.suffix}

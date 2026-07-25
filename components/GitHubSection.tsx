@@ -72,13 +72,13 @@ export default function GitHubSection() {
   return (
     <section id="github">
       <div className="wrap">
-        <div className="eyebrow">OPEN SOURCE</div>
-        <h2 className="section-title">GitHub Activity</h2>
-        <p className="section-sub">
+        <div className="eyebrow reveal">OPEN SOURCE</div>
+        <h2 className="section-title reveal reveal-delay-1">GitHub Activity</h2>
+        <p className="section-sub reveal reveal-delay-2">
           Live statistics, top repositories, and contributions directly from my GitHub profile.
         </p>
 
-        <div className="gh-card glass grad-border" id="ghCard">
+        <div className="gh-card glass grad-border reveal reveal-delay-2" id="ghCard">
           {loading ? (
             <p className="gh-loading">Loading live GitHub data...</p>
           ) : error || !user ? (
@@ -150,13 +150,13 @@ export default function GitHubSection() {
 
               <div className="gh-repos">
                 {repos.length > 0 ? (
-                  repos.slice(0, 6).map((r) => (
+                  repos.slice(0, 6).map((r, rIdx) => (
                     <a
                       key={r.id}
                       href={r.html_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="gh-repo glass grad-border"
+                      className={`gh-repo glass grad-border reveal reveal-delay-${(rIdx % 3) + 1}`}
                       data-cursor="hover"
                     >
                       <h4>{r.name}</h4>

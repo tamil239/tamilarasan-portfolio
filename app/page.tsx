@@ -2,6 +2,7 @@ import Loader from "@/components/Loader";
 import ScrollProgress from "@/components/ScrollProgress";
 import BackgroundCanvas from "@/components/BackgroundCanvas";
 import CustomCursor from "@/components/CustomCursor";
+import ScrollReveal from "@/components/ScrollReveal";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Stats from "@/components/Stats";
@@ -54,6 +55,7 @@ export default function Home() {
       <Loader />
       <ScrollProgress />
       <CustomCursor />
+      <ScrollReveal />
       <BackgroundCanvas />
       <Header />
       <main id="main-content">

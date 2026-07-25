@@ -7,9 +7,9 @@ export default function Timeline() {
   return (
     <section id="education">
       <div className="wrap">
-        <div className="eyebrow">ROADMAP &amp; MILESTONES</div>
-        <h2 className="section-title">Experience &amp; Academics</h2>
-        <p className="section-sub">
+        <div className="eyebrow reveal">ROADMAP &amp; MILESTONES</div>
+        <h2 className="section-title reveal reveal-delay-1">Experience &amp; Academics</h2>
+        <p className="section-sub reveal reveal-delay-2">
           A side-by-side view of my professional internships and academic background.
         </p>
 
@@ -21,7 +21,7 @@ export default function Timeline() {
             marginTop: "32px"
           }}
         >
-          <div>
+          <div className="reveal reveal-delay-1">
             <div
               style={{
                 display: "flex",
@@ -40,7 +40,7 @@ export default function Timeline() {
 
             <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               {experience.map((exp, idx) => (
-                <div key={`exp-${idx}`} className="tl-card glass grad-border">
+                <div key={`exp-${idx}`} className={`tl-card glass grad-border reveal reveal-delay-${idx + 1}`}>
                   <div className="tl-date">{exp.period}</div>
                   <h3>{exp.role}</h3>
                   <div className="org">{exp.org}</div>
@@ -55,7 +55,7 @@ export default function Timeline() {
             </div>
           </div>
 
-          <div>
+          <div className="reveal reveal-delay-2">
             <div
               style={{
                 display: "flex",
@@ -74,7 +74,7 @@ export default function Timeline() {
 
             <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               {education.map((edu, idx) => (
-                <div key={`edu-${idx}`} className="tl-card glass grad-border">
+                <div key={`edu-${idx}`} className={`tl-card glass grad-border reveal reveal-delay-${(idx % 3) + 1}`}>
                   <div className="tl-date">{edu.period}</div>
                   <h3>{edu.degree}</h3>
                   <div className="org">

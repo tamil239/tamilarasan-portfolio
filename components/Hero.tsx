@@ -51,36 +51,36 @@ export default function Hero() {
   return (
     <section className="hero" id="home">
       <div className="wrap hero-grid">
-        <div className="hero-content">
-          <div className="hero-badge glass">
+        <div className="hero-content reveal in">
+          <div className="hero-badge glass reveal in">
             <span className="live-dot" /> Available for AI &amp; ML Roles
           </div>
 
-          <div className="hero-eyebrow">
+          <div className="hero-eyebrow reveal in reveal-delay-1">
             AI &amp; DATA SCIENCE ENGINEER
           </div>
 
-          <div className="hero-hi">
+          <div className="hero-hi reveal in reveal-delay-1">
             <span className="hi-accent" /> Hello, I&apos;m
           </div>
 
-          <h1>
+          <h1 className="reveal in reveal-delay-2">
             Tamilarasan<br />
             <span className="name">S.</span>
           </h1>
 
-          <div className="hero-role">
+          <div className="hero-role reveal in reveal-delay-2">
             Specialized as <span id="typed">{typedText}</span>
             <span className="cursor-blink" />
           </div>
 
-          <p className="hero-desc">
+          <p className="hero-desc reveal in reveal-delay-3">
             Passionate Artificial Intelligence &amp; Data Science undergraduate focused on
             building intelligent models, computer vision applications, and IoT prototypes
             that solve high-impact real-world problems.
           </p>
 
-          <div className="hero-btns">
+          <div className="hero-btns reveal in reveal-delay-4">
             <a href="#projects" className="btn btn-primary" data-cursor="hover">
               Explore Work
             </a>
@@ -125,7 +125,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="hero-photo-wrap reveal in" style={{ position: "relative" }}>
+        <div className="hero-photo-wrap reveal in reveal-delay-2" style={{ position: "relative" }}>
           <div
             className="glass grad-border"
             style={{
@@ -166,7 +166,7 @@ export default function Hero() {
           </div>
 
           <div
-            className="glass"
+            className="glass reveal in reveal-delay-3"
             style={{
               position: "absolute",
               bottom: "20px",
@@ -191,7 +191,7 @@ export default function Hero() {
           </div>
 
           <div
-            className="glass"
+            className="glass reveal in reveal-delay-4"
             style={{
               position: "absolute",
               top: "25px",
