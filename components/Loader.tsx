@@ -12,7 +12,7 @@ export default function Loader() {
 
   return (
     <div id="loader" className={hidden ? "hide" : ""}>
-      <div className="loader-mark">TS · Loading Intelligence</div>
+      <div className="loader-mark">[ TS · NEURAL CORE INITIALIZING ]</div>
       <div className="loader-bar">
         <span></span>
       </div>

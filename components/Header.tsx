@@ -34,7 +34,7 @@ export default function Header() {
     <header id="header" className={scrolled ? "scrolled" : ""}>
       <nav className="wrap">
         <Link href="#home" className="logo" aria-label="Home">
-          Tamilarasan <span>S</span>
+          Tamilarasan <span>S.</span>
         </Link>
 
         <div
@@ -46,32 +46,32 @@ export default function Header() {
         <ul className={`nav-links ${menuOpen ? "open" : ""}`} id="navLinks">
           <li>
             <a href="#about" className="nav-link" onClick={closeMenu}>
-              About
+              {"// ABOUT"}
             </a>
           </li>
           <li>
             <a href="#education" className="nav-link" onClick={closeMenu}>
-              Education
+              {"// ACADEMICS"}
             </a>
           </li>
           <li>
             <a href="#skills" className="nav-link" onClick={closeMenu}>
-              Skills
+              {"// SKILLS"}
             </a>
           </li>
           <li>
             <a href="#projects" className="nav-link" onClick={closeMenu}>
-              Projects
+              {"// PROJECTS"}
             </a>
           </li>
           <li>
             <a href="#github" className="nav-link" onClick={closeMenu}>
-              GitHub
+              {"// GITHUB"}
             </a>
           </li>
           <li>
             <a href="#contact" className="nav-link" onClick={closeMenu}>
-              Contact
+              {"// CONTACT"}
             </a>
           </li>
         </ul>

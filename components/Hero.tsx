@@ -7,11 +7,11 @@ import { Github, Linkedin, Mail, ArrowUpRight } from "lucide-react";
 import { socials, contactInfo } from "@/lib/data";
 
 const roles = [
-  "AI Developer",
-  "Data Science Student",
-  "Machine Learning Enthusiast",
+  "AI & Deep Learning Developer",
   "Computer Vision Specialist",
-  "IoT Prototyper"
+  "Data Science Undergraduate",
+  "FastAPI & PyTorch Engineer",
+  "IoT Systems Prototyper"
 ];
 
 export default function Hero() {
@@ -53,36 +53,36 @@ export default function Hero() {
       <div className="wrap hero-grid">
         <div className="hero-content">
           <div className="hero-badge glass">
-            <span className="live-dot" /> Open to Opportunities
+            <span className="live-dot" /> Available for AI &amp; ML Roles
           </div>
 
           <div className="hero-eyebrow">
-            AI &amp; Data Science Undergraduate
+            {"// AI & DATA SCIENCE ENGINEER"}
           </div>
 
           <div className="hero-hi">
-            <span className="hi-accent" /> Hi, I&apos;m
+            <span className="hi-accent" /> Hello, I&apos;m
           </div>
 
           <h1>
             Tamilarasan<br />
-            <span className="name">S</span>
+            <span className="name">S.</span>
           </h1>
 
           <div className="hero-role">
-            I&apos;m an <span id="typed">{typedText}</span>
+            Specialized as <span id="typed">{typedText}</span>
             <span className="cursor-blink" />
           </div>
 
           <p className="hero-desc">
-            I build intelligent AI-powered applications and data-driven solutions
-            that solve real-world problems. My interests include Machine Learning,
-            Data Analytics, Computer Vision, Deep Learning, and IoT Systems.
+            Passionate Artificial Intelligence &amp; Data Science undergraduate focused on
+            building intelligent models, computer vision applications, and IoT prototypes
+            that solve high-impact real-world problems.
           </p>
 
           <div className="hero-btns">
             <a href="#projects" className="btn btn-primary" data-cursor="hover">
-              Explore Projects
+              View Work
             </a>
             <Link
               href="/resume"
@@ -139,7 +139,7 @@ export default function Hero() {
       </div>
 
       <div className="hero-scroll">
-        <span>SCROLL</span>
+        <span>EXPLORE</span>
         <div className="scroll-line" />
       </div>
     </section>
