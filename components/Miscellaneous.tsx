@@ -50,14 +50,14 @@ export default function Miscellaneous() {
     <div ref={sectionRef} className="relative bg-[#0a0a0a] md:overflow-hidden">
       <div 
         ref={containerRef} 
-        className="flex w-full flex-col gap-16 py-20 md:h-screen md:w-max md:flex-row md:flex-nowrap md:items-stretch md:gap-0 md:py-0"
+        className="flex w-full flex-col gap-8 py-16 px-5 sm:px-6 md:h-screen md:w-max md:flex-row md:flex-nowrap md:items-stretch md:gap-0 md:py-0 md:px-0"
       >
-        <div className="flex w-full shrink-0 flex-col justify-center px-6 md:h-full md:w-[46vw] md:pr-16 md:[padding-left:calc(max((100vw-1354px)/2,0px)+2.5rem)]">
-          <p className="font-body mb-6 flex items-center gap-3 text-sm uppercase tracking-[0.25em] text-white/50">
+        <div className="flex w-full shrink-0 flex-col justify-center md:h-full md:w-[46vw] md:pr-16 md:[padding-left:calc(max((100vw-1354px)/2,0px)+2.5rem)]">
+          <p className="font-body mb-4 md:mb-6 flex items-center gap-3 text-sm uppercase tracking-[0.25em] text-white/50">
             <span className="dot-loop h-2 w-2 rounded-full bg-accent"></span>
             Beyond the code
           </p>
-          <h2 className="font-display text-[clamp(40px,8vw,80px)] leading-[0.9] tracking-[-0.03em] text-white">
+          <h2 className="font-display text-[clamp(32px,8vw,80px)] leading-[0.9] tracking-[-0.03em] text-white">
             Certifications &<br />Achievements
           </h2>
           <span className="font-body mt-10 hidden text-sm uppercase tracking-[0.2em] text-white/40 md:block">
@@ -65,8 +65,49 @@ export default function Miscellaneous() {
           </span>
         </div>
 
+        {/* Mobile: vertical grid of cards / Desktop: horizontal scroll cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:hidden">
+          {certifications.map((cert, i) => (
+            <div key={`cert-${i}`} className="group">
+              <TiltCard maxRotate={8} className="w-full">
+                <div 
+                  data-cursor-hover="true" 
+                  className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-neutral-900 border border-white/10 flex items-center justify-center p-6 sm:p-8"
+                  style={{ transformStyle: "preserve-3d" }}
+                >
+                  <div className="text-center" style={{ transform: "translateZ(30px)" }}>
+                    <h3 className="font-display text-[20px] sm:text-[24px] leading-tight tracking-tight text-white/90 group-hover:text-white transition-colors">
+                      {cert.name}
+                    </h3>
+                    <p className="font-body mt-3 text-[14px] sm:text-[16px] text-white/50">Issued by {cert.issuer}</p>
+                  </div>
+                </div>
+              </TiltCard>
+            </div>
+          ))}
+
+          {achievements.map((ach, i) => (
+            <div key={`ach-${i}`} className="group">
+              <TiltCard maxRotate={8} className="w-full">
+                <div 
+                  data-cursor-hover="true" 
+                  className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-neutral-900 border border-white/10 flex items-center justify-center p-6 sm:p-8"
+                  style={{ transformStyle: "preserve-3d" }}
+                >
+                  <div className="text-center" style={{ transform: "translateZ(30px)" }}>
+                    <h3 className="font-display text-[18px] sm:text-[22px] leading-tight tracking-tight text-white/90 group-hover:text-white transition-colors">
+                      {ach}
+                    </h3>
+                  </div>
+                </div>
+              </TiltCard>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop: horizontal scroll cards (hidden on mobile) */}
         {certifications.map((cert, i) => (
-          <div key={`cert-${i}`} className="group flex w-full shrink-0 flex-col justify-center px-6 md:h-full md:w-[42vw] md:px-10">
+          <div key={`cert-${i}`} className="group hidden md:flex w-full shrink-0 flex-col justify-center md:h-full md:w-[42vw] md:px-10">
             <TiltCard maxRotate={8} className="w-full">
               <div 
                 data-cursor-hover="true" 
@@ -85,7 +126,7 @@ export default function Miscellaneous() {
         ))}
 
         {achievements.map((ach, i) => (
-          <div key={`ach-${i}`} className="group flex w-full shrink-0 flex-col justify-center px-6 md:h-full md:w-[42vw] md:px-10">
+          <div key={`ach-${i}`} className="group hidden md:flex w-full shrink-0 flex-col justify-center md:h-full md:w-[42vw] md:px-10">
             <TiltCard maxRotate={8} className="w-full">
               <div 
                 data-cursor-hover="true" 

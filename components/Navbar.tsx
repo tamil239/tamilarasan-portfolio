@@ -56,15 +56,15 @@ export default function Navbar() {
               </div>
               <span className="dot-loop absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-accent"></span>
             </span>
-            <span className="font-display whitespace-nowrap text-[16px] text-white md:text-[18px] font-medium">
+            <span className="font-display whitespace-nowrap text-[14px] sm:text-[16px] text-white lg:text-[18px] font-medium">
               Tamilarasan S<span className="text-accent">.</span>
             </span>
           </Link>
 
           {/* Desktop Nav */}
-          <div className="relative hidden items-center justify-end md:flex">
+          <div className="relative hidden items-center justify-end lg:flex">
             <div className="flex items-center gap-5 md:gap-7">
-              <nav className="font-body flex items-center gap-6 text-[15px] text-white md:gap-8 md:text-[16px] font-medium">
+              <nav className="font-body flex items-center gap-6 text-[15px] text-white lg:gap-8 lg:text-[16px] font-medium">
                 {["Projects", "Experience", "About"].map((label) => {
                   const href = `#${label.toLowerCase()}`;
                   return (
@@ -123,7 +123,7 @@ export default function Navbar() {
             type="button"
             aria-label="Menu"
             aria-expanded={open}
-            className="relative flex h-10 w-10 items-center justify-center md:hidden z-50 text-white"
+            className="relative flex h-10 w-10 items-center justify-center lg:hidden z-50 text-white"
             onClick={() => setOpen(!open)}
           >
             {open ? <X size={24} /> : <Menu size={24} />}
@@ -133,7 +133,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 z-[90] bg-black/95 backdrop-blur-xl transition-all duration-500 md:hidden flex flex-col justify-center px-6 ${
+        className={`fixed inset-0 z-[90] bg-black/95 backdrop-blur-xl transition-all duration-500 lg:hidden flex flex-col justify-center px-6 ${
           open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >

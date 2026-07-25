@@ -30,7 +30,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  cursor: none; /* We will use a custom cursor */
+}
+
+/* Only use custom cursor on devices with a fine pointer (mouse) */
+@media (pointer: fine) {
+  body {
+    cursor: none;
+  }
 }
 
 h1, h2, h3, h4, h5, h6, .font-display {
@@ -136,8 +142,8 @@ textarea:focus-visible,
 }
 
 .section-padding {
-  padding-top: 64px;
-  padding-bottom: 64px;
+  padding-top: 48px;
+  padding-bottom: 48px;
 }
 
 @media (min-width: 768px) {

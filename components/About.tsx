@@ -28,15 +28,15 @@ export default function About() {
   }, [isPaused]);
 
   return (
-    <section id="about" className="flex min-h-[100svh] items-center overflow-hidden bg-black px-6 py-24 md:px-10">
+    <section id="about" className="flex min-h-0 md:min-h-[100svh] items-center overflow-hidden bg-black px-5 sm:px-6 py-16 md:py-24 md:px-10">
       <div 
-        className="mx-auto flex w-full max-w-[1274px] flex-col gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-16"
+        className="mx-auto flex w-full max-w-[1274px] flex-col gap-8 md:gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-16"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
         <div className="flex shrink-0 flex-col items-start lg:w-[240px] lg:pt-1">
-          <h2 className="font-display font-medium text-[clamp(40px,8vw,80px)] leading-[0.9] tracking-[-0.03em] text-white">Intro</h2>
-          <nav className="mt-8 flex flex-col items-start gap-1">
+          <h2 className="font-display font-medium text-[clamp(36px,8vw,80px)] leading-[0.9] tracking-[-0.03em] text-white">Intro</h2>
+          <nav className="mt-5 md:mt-8 flex flex-row flex-wrap md:flex-col items-start gap-x-4 gap-y-1 md:gap-1">
             {(Object.keys(intros) as Role[]).map((role) => (
               <button
                 key={role}
@@ -44,13 +44,13 @@ export default function About() {
                 data-cursor-hover="true"
                 onClick={() => setActiveRole(role)}
                 onMouseEnter={() => setActiveRole(role)}
-                className={`group font-body flex items-center gap-3 py-2 text-left text-[18px] transition-colors duration-200 md:text-[20px] ${
+                className={`group font-body flex items-center gap-2 md:gap-3 py-1.5 md:py-2 text-left text-[15px] md:text-[18px] transition-colors duration-200 lg:text-[20px] ${
                   activeRole === role ? "text-white" : "text-white/40 hover:text-white/75"
                 }`}
               >
                 <span
                   className={`block h-px bg-current transition-all duration-300 ${
-                    activeRole === role ? "w-9 opacity-100" : "w-4 opacity-40 group-hover:w-6"
+                    activeRole === role ? "w-6 md:w-9 opacity-100" : "w-3 md:w-4 opacity-40 group-hover:w-6"
                   }`}
                 ></span>
                 {role}
@@ -60,10 +60,10 @@ export default function About() {
         </div>
         
         <div className="w-full lg:max-w-[790px] lg:flex-1">
-          <div className="relative h-[400px] overflow-hidden p-8 md:h-[500px] md:p-11 lg:h-[450px]">
+          <div className="relative min-h-[200px] sm:min-h-[280px] overflow-hidden p-0 sm:p-4 md:h-[500px] md:p-11 lg:h-[450px]">
             <p
               key={activeRole} // Force re-render for animation
-              className="font-display text-[26px] font-normal leading-[1.3] tracking-[-0.01em] md:text-[44px] animate-fade-in-up text-white"
+              className="font-display text-[20px] sm:text-[26px] font-normal leading-[1.3] tracking-[-0.01em] md:text-[44px] animate-fade-in-up text-white"
             >
               {intros[activeRole]}
             </p>

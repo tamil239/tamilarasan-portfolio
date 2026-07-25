@@ -7,7 +7,7 @@ const skills = skillGroups.flatMap((g) => g.skills);
 
 export default function Marquee() {
   return (
-    <div className="overflow-hidden bg-white py-6 text-black border-y border-white/10 select-none">
+    <div className="overflow-hidden bg-white py-4 sm:py-6 text-black border-y border-white/10 select-none">
       {/* A single track that is 200% wide (content duplicated inside) */}
       {/* CSS animation translates it by -50%, creating a seamless loop */}
       <div className="marquee-track">
