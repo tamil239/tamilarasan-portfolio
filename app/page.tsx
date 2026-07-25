@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Loader from "@/components/Loader";
 import ScrollProgress from "@/components/ScrollProgress";
 import BackgroundCanvas from "@/components/BackgroundCanvas";
@@ -16,6 +19,11 @@ import GitHubSection from "@/components/GitHubSection";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
+import { ToastProvider } from "@/components/Toast";
+import DermAiPlaygroundModal from "@/components/DermAiPlaygroundModal";
+import TerminalModal from "@/components/TerminalModal";
+import ResumeViewerModal from "@/components/ResumeViewerModal";
+import ProjectDetailModal from "@/components/ProjectDetailModal";
 import { contactInfo, socials } from "@/lib/data";
 
 const jsonLd = {
@@ -47,8 +55,13 @@ const jsonLd = {
 };
 
 export default function Home() {
+  const [isDermAiOpen, setIsDermAiOpen] = useState(false);
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<any>(null);
+
   return (
-    <>
+    <ToastProvider>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -59,20 +72,50 @@ export default function Home() {
       <ScrollReveal />
       <CyberPet />
       <BackgroundCanvas />
-      <Header />
+
+      <Header
+        onOpenTerminal={() => setIsTerminalOpen(true)}
+        onOpenDermAi={() => setIsDermAiOpen(true)}
+      />
+
       <main id="main-content">
-        <Hero />
+        <Hero onOpenResume={() => setIsResumeOpen(true)} />
         <Stats />
         <About />
         <Timeline />
         <Skills />
-        <Projects />
+        <Projects
+          onOpenDermAi={() => setIsDermAiOpen(true)}
+          onSelectProject={(proj) => setSelectedProject(proj)}
+        />
         <CertificationsAchievements />
         <GitHubSection />
         <Contact />
       </main>
+
       <Footer />
       <BackToTop />
-    </>
+
+      {/* Interactive Modals */}
+      <DermAiPlaygroundModal
+        isOpen={isDermAiOpen}
+        onClose={() => setIsDermAiOpen(false)}
+      />
+
+      <TerminalModal
+        isOpen={isTerminalOpen}
+        onClose={() => setIsTerminalOpen(false)}
+      />
+
+      <ResumeViewerModal
+        isOpen={isResumeOpen}
+        onClose={() => setIsResumeOpen(false)}
+      />
+
+      <ProjectDetailModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
+    </ToastProvider>
   );
 }

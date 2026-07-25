@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useRef } from "react";
 import { projects } from "@/lib/data";
-import { Search, ExternalLink, Github, Sparkles, Award } from "lucide-react";
+import { Search, ExternalLink, Github, Sparkles, Award, Eye } from "lucide-react";
 
 const projectCategories: Record<string, string> = {
   "DermAI — Skin Disease Prediction Model": "ai vision",
@@ -22,7 +22,70 @@ const projectGradients: Record<string, string> = {
     "linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #B45309 100%)"
 };
 
-export default function Projects() {
+const projectCodeSnippets: Record<string, { code: string; arch: string }> = {
+  "DermAI — Skin Disease Prediction Model": {
+    arch: "Input RGB Image (224x224) ➔ ConvNeXt Backbone ➔ Attention Feature Maps ➔ Softmax Classifier (96.0% Accuracy)",
+    code: `import torch
+import torch.nn as nn
+from timm import create_model
+
+class DermAIClassifier(nn.Module):
+    def __init__(self, num_classes=7):
+        super().__init__()
+        self.backbone = create_model('convnext_tiny', pretrained=True)
+        self.head = nn.Sequential(
+            nn.Linear(self.backbone.head.fc.in_features, 512),
+            nn.GELU(),
+            nn.Dropout(0.3),
+            nn.Linear(512, num_classes)
+        )
+    
+    def forward(self, x):
+        features = self.backbone.forward_features(x)
+        return self.head(self.backbone.forward_head(features))`
+  },
+  "Pearl — Women's Health Tracking & PCOD Diet Guide App": {
+    arch: "User Health Metrics ➔ FastAPI Microservice ➔ PCOD Diet Rule Engine ➔ Mobile UI",
+    code: `@app.post("/api/v1/recommend-diet")
+async def recommend_pcod_diet(metrics: HealthMetrics):
+    # Rule engine matching glycemic load & hormone indicators
+    diet_plan = calculate_macronutrients(metrics)
+    return {"status": "success", "diet_plan": diet_plan}`
+  },
+  "Semantic-Aware Grayscale Video Colorization": {
+    arch: "Grayscale Frame Sequence ➔ U-Net Generator + GAN Discriminator ➔ Temporal Color Consistency Filter",
+    code: `class ColorizationGenerator(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.encoder = ResNetBackbone()
+        self.decoder = UpsampleDecoderWithSkipConnections()
+        
+    def forward(self, l_channel):
+        ab_channels = self.decoder(self.encoder(l_channel))
+        return torch.cat([l_channel, ab_channels], dim=1)`
+  },
+  "Pet Monitoring Web Application": {
+    arch: "Arduino Hardware Sensors ➔ Serial/ESP32 Gateway ➔ Node.js Server ➔ Real-Time Web Dashboard",
+    code: `void setup() {
+    Serial.begin(115200);
+    initSensors();
+}
+void loop() {
+    float temp = readTemperature();
+    float activity = readIMU();
+    sendTelemetry(temp, activity);
+    delay(1000);
+}`
+  }
+};
+
+export default function Projects({
+  onOpenDermAi,
+  onSelectProject
+}: {
+  onOpenDermAi?: () => void;
+  onSelectProject?: (proj: any) => void;
+}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState("all");
 
@@ -61,6 +124,20 @@ export default function Projects() {
     const card = cardRefs.current[index];
     if (!card) return;
     card.style.transform = "";
+  };
+
+  const openInspector = (proj: any) => {
+    if (onSelectProject) {
+      const extra = projectCodeSnippets[proj.name] || {
+        arch: "Input Data Pipeline ➔ Deep Learning Backbone ➔ Inference Output",
+        code: `# ${proj.name}\nimport torch\n# Model code snippet`
+      };
+      onSelectProject({
+        ...proj,
+        codeSnippet: extra.code,
+        architecture: extra.arch
+      });
+    }
   };
 
   return (
@@ -126,16 +203,24 @@ export default function Projects() {
               ))}
             </div>
 
-            <div style={{ display: "flex", gap: "14px" }}>
-              <a
-                href="https://github.com/tamil239"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-primary"
+            <div style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
+              {onOpenDermAi && (
+                <button
+                  onClick={onOpenDermAi}
+                  className="btn btn-primary"
+                  data-cursor="hover"
+                >
+                  <Sparkles size={16} /> Test Live AI Model
+                </button>
+              )}
+
+              <button
+                onClick={() => openInspector(featuredProject)}
+                className="btn btn-ghost"
                 data-cursor="hover"
               >
-                <Github size={16} /> View Code
-              </a>
+                <Eye size={16} /> Inspect Code &amp; Architecture
+              </button>
             </div>
           </div>
 
@@ -271,28 +356,27 @@ export default function Projects() {
                     </div>
 
                     <div className="proj-links">
-                      <a
-                        href={project.githubUrl || "https://github.com/tamil239"}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <button
+                        onClick={() => openInspector(project)}
                         className="btn-ghost"
                         data-cursor="hover"
-                        style={{ flex: 1, textAlign: "center" }}
+                        style={{ flex: 1, textAlign: "center", justifyContent: "center" }}
                       >
-                        <Github size={14} style={{ display: "inline", marginRight: "6px" }} />
-                        Source Code
-                      </a>
-                      {project.liveUrl && (
+                        <Eye size={14} style={{ display: "inline", marginRight: "6px" }} />
+                        Inspect Code
+                      </button>
+
+                      {project.githubUrl && (
                         <a
-                          href={project.liveUrl}
+                          href={project.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="primary"
                           data-cursor="hover"
-                          style={{ flex: 1, textAlign: "center" }}
+                          style={{ flex: 1, textAlign: "center", justifyContent: "center" }}
                         >
-                          Live Preview
-                          <ExternalLink size={14} style={{ display: "inline", marginLeft: "6px" }} />
+                          <Github size={14} style={{ display: "inline", marginRight: "6px" }} />
+                          Code
                         </a>
                       )}
                     </div>

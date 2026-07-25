@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Phone, MapPin, Send, Github, Linkedin } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Github, Linkedin, Copy } from "lucide-react";
 import { contactInfo, socials } from "@/lib/data";
+import { useToast } from "@/components/Toast";
 
 export default function Contact() {
+  const { showToast } = useToast();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -18,6 +20,12 @@ export default function Contact() {
     const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
     window.location.href = `mailto:${contactInfo.email}?subject=${subject}&body=${body}`;
     setStatusMsg("Opening your email client...");
+    showToast("Opening default mail application...");
+  };
+
+  const handleCopy = (text: string, label: string) => {
+    navigator.clipboard.writeText(text);
+    showToast(`Copied ${label} to clipboard!`);
   };
 
   return (
@@ -31,27 +39,33 @@ export default function Contact() {
 
         <div className="contact-grid">
           <div className="contact-info reveal reveal-delay-1">
-            <div className="item">
+            <div className="item" onClick={() => handleCopy(contactInfo.email, "email")} style={{ cursor: "pointer" }}>
               <div className="ico">
                 <Mail size={18} style={{ color: "var(--accent)" }} />
               </div>
               <div>
-                <h4>EMAIL</h4>
-                <a href={`mailto:${contactInfo.email}`} data-cursor="hover">
-                  {contactInfo.email}
-                </a>
+                <h4>EMAIL (CLICK TO COPY)</h4>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <a href={`mailto:${contactInfo.email}`} data-cursor="hover" onClick={(e) => e.stopPropagation()}>
+                    {contactInfo.email}
+                  </a>
+                  <Copy size={14} style={{ color: "var(--accent)" }} />
+                </div>
               </div>
             </div>
 
-            <div className="item">
+            <div className="item" onClick={() => handleCopy(contactInfo.phone, "phone number")} style={{ cursor: "pointer" }}>
               <div className="ico">
                 <Phone size={18} style={{ color: "var(--accent)" }} />
               </div>
               <div>
-                <h4>PHONE</h4>
-                <a href={`tel:${contactInfo.phone}`} data-cursor="hover">
-                  {contactInfo.phone}
-                </a>
+                <h4>PHONE (CLICK TO COPY)</h4>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <a href={`tel:${contactInfo.phone}`} data-cursor="hover" onClick={(e) => e.stopPropagation()}>
+                    {contactInfo.phone}
+                  </a>
+                  <Copy size={14} style={{ color: "var(--accent)" }} />
+                </div>
               </div>
             </div>
 

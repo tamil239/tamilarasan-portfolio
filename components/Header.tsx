@@ -2,9 +2,15 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Terminal as TerminalIcon, Sparkles } from "lucide-react";
 
-export default function Header() {
+export default function Header({
+  onOpenTerminal,
+  onOpenDermAi
+}: {
+  onOpenTerminal?: () => void;
+  onOpenDermAi?: () => void;
+}) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLight, setIsLight] = useState(false);
@@ -77,6 +83,29 @@ export default function Header() {
         </ul>
 
         <div className="nav-actions">
+          {onOpenDermAi && (
+            <button
+              className="icon-btn"
+              onClick={onOpenDermAi}
+              aria-label="Test DermAI Playground"
+              title="Test DermAI Playground"
+              style={{ color: "var(--accent)" }}
+            >
+              <Sparkles size={16} />
+            </button>
+          )}
+
+          {onOpenTerminal && (
+            <button
+              className="icon-btn"
+              onClick={onOpenTerminal}
+              aria-label="Developer Terminal CLI"
+              title="Open CLI Terminal"
+            >
+              <TerminalIcon size={16} />
+            </button>
+          )}
+
           <button
             className="icon-btn"
             onClick={toggleTheme}
@@ -91,9 +120,9 @@ export default function Header() {
             aria-label="Menu"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <span></span>
-            <span></span>
-            <span></span>
+            <span />
+            <span />
+            <span />
           </button>
         </div>
       </nav>

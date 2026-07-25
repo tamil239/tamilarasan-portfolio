@@ -14,7 +14,7 @@ const roles = [
   "IoT Systems Prototyper"
 ];
 
-export default function Hero() {
+export default function Hero({ onOpenResume }: { onOpenResume?: () => void }) {
   const [typedText, setTypedText] = useState("");
   const [roleIndex, setRoleIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
@@ -84,13 +84,13 @@ export default function Hero() {
             <a href="#projects" className="btn btn-primary" data-cursor="hover">
               Explore Work
             </a>
-            <Link
-              href="/resume"
+            <button
+              onClick={onOpenResume}
               className="btn btn-ghost"
               data-cursor="hover"
             >
               View Resume <ArrowUpRight size={16} />
-            </Link>
+            </button>
 
             <div className="hero-social-row" style={{ marginTop: 0, marginLeft: "12px" }}>
               <a
