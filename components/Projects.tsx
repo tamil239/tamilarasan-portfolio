@@ -276,20 +276,24 @@ export default function Projects() {
                         rel="noopener noreferrer"
                         className="btn-ghost"
                         data-cursor="hover"
+                        style={{ flex: 1, textAlign: "center" }}
                       >
                         <Github size={14} style={{ display: "inline", marginRight: "6px" }} />
                         Source Code
                       </a>
-                      <a
-                        href={project.liveUrl || "#"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="primary"
-                        data-cursor="hover"
-                      >
-                        Explore
-                        <ExternalLink size={14} style={{ display: "inline", marginLeft: "6px" }} />
-                      </a>
+                      {project.liveUrl && (
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="primary"
+                          data-cursor="hover"
+                          style={{ flex: 1, textAlign: "center" }}
+                        >
+                          Live Preview
+                          <ExternalLink size={14} style={{ display: "inline", marginLeft: "6px" }} />
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
