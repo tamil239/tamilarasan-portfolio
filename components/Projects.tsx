@@ -73,7 +73,7 @@ export default function Projects() {
         </p>
 
         <div
-          className="glass grad-border reveal reveal-delay-1"
+          className="glass grad-border featured-proj-banner reveal reveal-delay-1"
           style={{
             marginBottom: "40px",
             padding: "36px",
@@ -85,7 +85,7 @@ export default function Projects() {
             alignItems: "center"
           }}
         >
-          <div style={{ gridColumn: "span 7" }}>
+          <div className="featured-proj-7" style={{ gridColumn: "span 7" }}>
             <div
               style={{
                 display: "inline-flex",
@@ -140,6 +140,7 @@ export default function Projects() {
           </div>
 
           <div
+            className="featured-proj-5"
             style={{
               gridColumn: "span 5",
               display: "flex",

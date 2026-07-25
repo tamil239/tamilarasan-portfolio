@@ -15,7 +15,9 @@ export default function About() {
           Bridging machine learning models, computer vision pipelines, and full-stack software for real-world impact.
         </p>
 
+        {/* Bento Grid Layout with Responsive Classes */}
         <div
+          className="bento-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(12, 1fr)",
@@ -23,8 +25,9 @@ export default function About() {
             marginTop: "32px"
           }}
         >
+          {/* Bento Card 1: Main Story (Spans 7 columns on desktop, 12 on mobile) */}
           <div
-            className="glass grad-border reveal reveal-delay-1"
+            className="glass grad-border bento-card-7 reveal reveal-delay-1"
             style={{
               gridColumn: "span 7",
               padding: "36px",
@@ -90,8 +93,9 @@ export default function About() {
             </div>
           </div>
 
+          {/* Bento Card 2: Quick Specs (Spans 5 columns on desktop, 12 on mobile) */}
           <div
-            className="glass grad-border reveal reveal-delay-2"
+            className="glass grad-border bento-card-5 reveal reveal-delay-2"
             style={{
               gridColumn: "span 5",
               padding: "32px",
@@ -163,8 +167,9 @@ export default function About() {
             </div>
           </div>
 
+          {/* Bento Card 3: Core Domains (Spans 12 columns full width bottom band) */}
           <div
-            className="glass grad-border reveal reveal-delay-3"
+            className="glass grad-border bento-card-12 reveal reveal-delay-3"
             style={{
               gridColumn: "span 12",
               padding: "24px 32px",
