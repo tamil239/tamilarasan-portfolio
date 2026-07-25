@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Github, Linkedin, Mail, ArrowUpRight } from "lucide-react";
+import { Github, Linkedin, Mail, ArrowUpRight, Award, CheckCircle2 } from "lucide-react";
 import { socials, contactInfo } from "@/lib/data";
 
 const roles = [
@@ -57,7 +57,7 @@ export default function Hero() {
           </div>
 
           <div className="hero-eyebrow">
-            {"// AI & DATA SCIENCE ENGINEER"}
+            AI &amp; DATA SCIENCE ENGINEER
           </div>
 
           <div className="hero-hi">
@@ -82,58 +82,137 @@ export default function Hero() {
 
           <div className="hero-btns">
             <a href="#projects" className="btn btn-primary" data-cursor="hover">
-              View Work
+              Explore Work
             </a>
             <Link
               href="/resume"
               className="btn btn-ghost"
               data-cursor="hover"
             >
-              Resume <ArrowUpRight size={16} />
+              View Resume <ArrowUpRight size={16} />
             </Link>
-          </div>
 
-          <div className="hero-social-row">
-            <a
-              href={socials.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="icon-btn"
-              data-cursor="hover"
-              aria-label="GitHub"
-            >
-              <Github size={16} />
-            </a>
-            <a
-              href={socials.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="icon-btn"
-              data-cursor="hover"
-              aria-label="LinkedIn"
-            >
-              <Linkedin size={16} />
-            </a>
-            <a
-              href={`mailto:${contactInfo.email}`}
-              className="icon-btn"
-              data-cursor="hover"
-              aria-label="Email"
-            >
-              <Mail size={16} />
-            </a>
+            <div className="hero-social-row" style={{ marginTop: 0, marginLeft: "12px" }}>
+              <a
+                href={socials.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="icon-btn"
+                data-cursor="hover"
+                aria-label="GitHub"
+              >
+                <Github size={16} />
+              </a>
+              <a
+                href={socials.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="icon-btn"
+                data-cursor="hover"
+                aria-label="LinkedIn"
+              >
+                <Linkedin size={16} />
+              </a>
+              <a
+                href={`mailto:${contactInfo.email}`}
+                className="icon-btn"
+                data-cursor="hover"
+                aria-label="Email"
+              >
+                <Mail size={16} />
+              </a>
+            </div>
           </div>
         </div>
 
-        <div className="hero-photo-wrap reveal in">
-          <div className="hero-photo">
+        <div className="hero-photo-wrap reveal in" style={{ position: "relative" }}>
+          <div
+            className="glass grad-border"
+            style={{
+              position: "relative",
+              width: "100%",
+              maxWidth: "340px",
+              height: "420px",
+              borderRadius: "24px",
+              overflow: "hidden",
+              boxShadow: "0 20px 50px rgba(0,0,0,0.5), 0 0 40px rgba(16,185,129,0.15)",
+              display: "flex",
+              alignItems: "flex-end",
+              justifyContent: "center"
+            }}
+          >
             <Image
               src="/images/tamilarasan_color.png"
               alt="Tamilarasan S"
-              width={320}
-              height={320}
+              width={340}
+              height={420}
               priority
+              style={{
+                objectFit: "cover",
+                objectPosition: "center top",
+                width: "100%",
+                height: "100%"
+              }}
             />
+
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: "linear-gradient(to top, rgba(7,9,14,0.85) 0%, transparent 60%)",
+                pointerEvents: "none"
+              }}
+            />
+          </div>
+
+          <div
+            className="glass"
+            style={{
+              position: "absolute",
+              bottom: "20px",
+              left: "-20px",
+              padding: "10px 16px",
+              borderRadius: "12px",
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              fontSize: "12.5px",
+              fontFamily: "var(--font-mono)",
+              boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
+              backdropFilter: "blur(16px)",
+              zIndex: 10
+            }}
+          >
+            <CheckCircle2 size={16} style={{ color: "var(--accent)" }} />
+            <div>
+              <span style={{ color: "var(--text-faint)", display: "block", fontSize: "10px" }}>ACADEMICS</span>
+              <strong style={{ color: "var(--text)" }}>CGPA 8.05 / 10</strong>
+            </div>
+          </div>
+
+          <div
+            className="glass"
+            style={{
+              position: "absolute",
+              top: "25px",
+              right: "-20px",
+              padding: "10px 16px",
+              borderRadius: "12px",
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              fontSize: "12.5px",
+              fontFamily: "var(--font-mono)",
+              boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
+              backdropFilter: "blur(16px)",
+              zIndex: 10
+            }}
+          >
+            <Award size={16} style={{ color: "var(--accent)" }} />
+            <div>
+              <span style={{ color: "var(--text-faint)", display: "block", fontSize: "10px" }}>MODEL ACCURACY</span>
+              <strong style={{ color: "var(--accent)" }}>96.0% DermAI</strong>
+            </div>
           </div>
         </div>
       </div>

@@ -46,32 +46,32 @@ export default function Header() {
         <ul className={`nav-links ${menuOpen ? "open" : ""}`} id="navLinks">
           <li>
             <a href="#about" className="nav-link" onClick={closeMenu}>
-              {"// ABOUT"}
+              About
             </a>
           </li>
           <li>
             <a href="#education" className="nav-link" onClick={closeMenu}>
-              {"// ACADEMICS"}
+              Academics
             </a>
           </li>
           <li>
             <a href="#skills" className="nav-link" onClick={closeMenu}>
-              {"// SKILLS"}
+              Skills
             </a>
           </li>
           <li>
             <a href="#projects" className="nav-link" onClick={closeMenu}>
-              {"// PROJECTS"}
+              Projects
             </a>
           </li>
           <li>
             <a href="#github" className="nav-link" onClick={closeMenu}>
-              {"// GITHUB"}
+              GitHub
             </a>
           </li>
           <li>
             <a href="#contact" className="nav-link" onClick={closeMenu}>
-              {"// CONTACT"}
+              Contact
             </a>
           </li>
         </ul>

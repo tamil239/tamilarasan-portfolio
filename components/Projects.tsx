@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useRef } from "react";
 import { projects } from "@/lib/data";
-import { Search, ExternalLink, Github } from "lucide-react";
+import { Search, ExternalLink, Github, Sparkles, Award } from "lucide-react";
 
 const projectCategories: Record<string, string> = {
   "DermAI — Skin Disease Prediction Model": "ai vision",
@@ -15,7 +15,7 @@ const projectGradients: Record<string, string> = {
   "DermAI — Skin Disease Prediction Model":
     "linear-gradient(135deg, #10B981 0%, #059669 50%, #047857 100%)",
   "Pearl — Women's Health Tracking & PCOD Diet Guide App":
-    "linear-gradient(135deg, #EC4899 0%, #D97706 50%, #B45309 100%)",
+    "linear-gradient(135deg, #06B6D4 0%, #0891B2 50%, #0E7490 100%)",
   "Semantic-Aware Grayscale Video Colorization":
     "linear-gradient(135deg, #6366F1 0%, #4F46E5 50%, #4338CA 100%)",
   "Pet Monitoring Web Application":
@@ -26,8 +26,11 @@ export default function Projects() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState("all");
 
-  const filteredProjects = useMemo(() => {
-    return projects.filter((project) => {
+  const featuredProject = projects[0]; // DermAI
+  const otherProjects = projects.slice(1);
+
+  const filteredOtherProjects = useMemo(() => {
+    return otherProjects.filter((project) => {
       const category = projectCategories[project.name] || "ai";
       const matchesFilter =
         activeFilter === "all" || category.includes(activeFilter);
@@ -41,7 +44,7 @@ export default function Projects() {
 
       return matchesFilter && matchesSearch;
     });
-  }, [searchQuery, activeFilter]);
+  }, [searchQuery, activeFilter, otherProjects]);
 
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -63,18 +66,112 @@ export default function Projects() {
   return (
     <section id="projects">
       <div className="wrap">
-        <div className="eyebrow">PORTFOLIO</div>
-        <h2 className="section-title">Featured Work</h2>
+        <div className="eyebrow">FEATURED LABS</div>
+        <h2 className="section-title">AI Models &amp; Engineering Projects</h2>
         <p className="section-sub">
-          AI models, computer vision applications, and full-stack IoT platforms built for real-world impact.
+          A showcase of deep learning platforms, computer vision applications, and IoT prototypes.
         </p>
+
+        <div
+          className="glass grad-border"
+          style={{
+            marginBottom: "40px",
+            padding: "36px",
+            borderRadius: "24px",
+            background: "linear-gradient(135deg, rgba(16,185,129,0.08) 0%, rgba(17,21,30,0.85) 100%)",
+            display: "grid",
+            gridTemplateColumns: "repeat(12, 1fr)",
+            gap: "28px",
+            alignItems: "center"
+          }}
+        >
+          <div style={{ gridColumn: "span 7" }}>
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "6px 14px",
+                borderRadius: "999px",
+                background: "rgba(16,185,129,0.15)",
+                border: "1px solid rgba(16,185,129,0.3)",
+                color: "var(--accent)",
+                fontFamily: "var(--font-mono)",
+                fontSize: "11.5px",
+                marginBottom: "16px"
+              }}
+            >
+              <Sparkles size={14} /> FEATURED FLAGSHIP PROJECT
+            </div>
+
+            <h3 style={{ fontSize: "26px", fontWeight: "700", fontFamily: "var(--font-display)", marginBottom: "12px" }}>
+              {featuredProject.name}
+            </h3>
+
+            <p style={{ color: "var(--text-dim)", fontSize: "15px", lineHeight: "1.7", marginBottom: "18px" }}>
+              {featuredProject.description}
+            </p>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "20px" }}>
+              {featuredProject.highlights.map((h, idx) => (
+                <div key={idx} style={{ fontSize: "13.5px", color: "var(--text)", display: "flex", alignItems: "center", gap: "8px" }}>
+                  <span style={{ color: "var(--accent)" }}>✓</span> {h}
+                </div>
+              ))}
+            </div>
+
+            <div className="proj-tech" style={{ marginBottom: "24px" }}>
+              {featuredProject.tech.map((t, idx) => (
+                <span key={idx}>{t}</span>
+              ))}
+            </div>
+
+            <div style={{ display: "flex", gap: "14px" }}>
+              <a
+                href="https://github.com/tamil239"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary"
+                data-cursor="hover"
+              >
+                <Github size={16} /> View Code
+              </a>
+            </div>
+          </div>
+
+          <div
+            style={{
+              gridColumn: "span 5",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "28px",
+              borderRadius: "20px",
+              background: "rgba(17,21,30,0.6)",
+              border: "1px solid var(--glass-border)",
+              textAlign: "center"
+            }}
+          >
+            <Award size={48} style={{ color: "var(--accent)", marginBottom: "12px" }} />
+            <div style={{ fontFamily: "var(--font-display)", fontSize: "36px", fontWeight: 800, color: "var(--accent)" }}>
+              96.0%
+            </div>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "var(--text-dim)", marginTop: "4px" }}>
+              SPECIALIST PRECISION ACCURACY
+            </div>
+            <div style={{ fontSize: "12px", color: "var(--text-faint)", marginTop: "12px" }}>
+              ConvNeXt-Tiny · EfficientNet-B3 · ResNet-18
+            </div>
+          </div>
+        </div>
 
         <div className="proj-toolbar">
           <div className="proj-search glass">
             <Search size={16} style={{ color: "var(--text-dim)" }} />
             <input
               type="text"
-              placeholder="Search projects or tech stack..."
+              placeholder="Search other projects or tech stack..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -85,7 +182,7 @@ export default function Projects() {
               className={`filter-btn ${activeFilter === "all" ? "active" : ""}`}
               onClick={() => setActiveFilter("all")}
             >
-              All Projects
+              All Labs
             </button>
             <button
               className={`filter-btn ${activeFilter === "ai" ? "active" : ""}`}
@@ -103,7 +200,7 @@ export default function Projects() {
               className={`filter-btn ${activeFilter === "fullstack" ? "active" : ""}`}
               onClick={() => setActiveFilter("fullstack")}
             >
-              Full Stack
+              Mobile / Full Stack
             </button>
             <button
               className={`filter-btn ${activeFilter === "iot" ? "active" : ""}`}
@@ -114,20 +211,20 @@ export default function Projects() {
           </div>
         </div>
 
-        {filteredProjects.length === 0 ? (
+        {filteredOtherProjects.length === 0 ? (
           <div
             style={{
               textAlign: "center",
-              padding: "60px 0",
+              padding: "40px 0",
               color: "var(--text-faint)",
               fontFamily: "var(--font-mono)"
             }}
           >
-            No projects matching your search.
+            No matching projects found.
           </div>
         ) : (
           <div className="projects-grid">
-            {filteredProjects.map((project, idx) => {
+            {filteredOtherProjects.map((project, idx) => {
               const bgGradient =
                 projectGradients[project.name] ||
                 "linear-gradient(135deg, #10B981, #059669)";
@@ -145,7 +242,7 @@ export default function Projects() {
                   <div className="proj-banner" style={{ background: bgGradient }}>
                     <div className="mesh" />
                     <span className="tag-float">
-                      {project.tech[0] || "AI System"}
+                      {project.tech[0] || "System"}
                     </span>
                   </div>
 
@@ -153,12 +250,12 @@ export default function Projects() {
                     <h3>{project.name}</h3>
 
                     <div className="proj-block">
-                      <div className="lbl">OVERVIEW</div>
+                      <div className="lbl">SUMMARY</div>
                       <p>{project.description}</p>
                     </div>
 
                     <div className="proj-block">
-                      <div className="lbl">KEY HIGHLIGHTS</div>
+                      <div className="lbl">HIGHLIGHTS</div>
                       <div className="proj-features">
                         {project.highlights.map((h, hIdx) => (
                           <span key={hIdx}>✓ {h}</span>
@@ -181,7 +278,7 @@ export default function Projects() {
                         data-cursor="hover"
                       >
                         <Github size={14} style={{ display: "inline", marginRight: "6px" }} />
-                        GitHub
+                        Source Code
                       </a>
                       <a
                         href={project.liveUrl || "#"}
@@ -190,7 +287,7 @@ export default function Projects() {
                         className="primary"
                         data-cursor="hover"
                       >
-                        Live Demo
+                        Explore
                         <ExternalLink size={14} style={{ display: "inline", marginLeft: "6px" }} />
                       </a>
                     </div>
