@@ -1,126 +1,63 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
-import { Sparkles, Heart, Zap } from "lucide-react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
+import { Sparkles, Heart, Moon, Sun, MessageSquare, X } from "lucide-react";
 
-const sectionMessages: Record<string, string[]> = {
-  home: [
-    "Hi there! I'm Nexus, your AI Cyber Pet! 🐾",
-    "Welcome to Tamilarasan's portfolio! ⚡",
-    "Let's explore some awesome AI projects!"
-  ],
-  about: [
-    "Tamilarasan studies AI & DS at Dr. MCET! 🎓",
-    "Deep Learning & OpenCV are his specialties! 🧠",
-    "CGPA 8.05 / 10 — Solid academic record! 🌟"
-  ],
-  education: [
-    "Macvel Solutions Internship completed! 💻",
-    "Anna University affiliated B.Tech degree! 📚",
-    "Always learning new AI frameworks!"
-  ],
-  skills: [
-    "PyTorch, FastAPI, OpenCV, and Python! ⚡",
-    "Check out those proficiency progress bars! 🚀",
-    "IoT hardware prototyping with Arduino!"
-  ],
-  projects: [
-    "DermAI has 96.0% specialist precision! 🏆",
-    "ConvNeXt, EfficientNet & ResNet models! 🧬",
-    "Pearl health app & Video Colorization!"
-  ],
-  certifications: [
-    "NPTEL E-Business & Entrepreneurship! 📜",
-    "NSS Volunteer & Event Coordinator! 🏅",
-    "Dedicated to continuous innovation!"
-  ],
-  github: [
-    "Live GitHub statistics loaded from tamil239! 🐙",
-    "Check out the real-time public repositories!",
-    "Star & fork his open-source code!"
-  ],
-  contact: [
-    "Send Tamilarasan a message below! 📩",
-    "Open for AI & Machine Learning roles! 💼",
-    "Located in Sivakasi, Tamil Nadu, India 📍"
-  ]
-};
+const petFacts = [
+  "Tamilarasan built DermAI skin prediction model with 96.0% accuracy! 🏆",
+  "Tamilarasan studies B.Tech AI & Data Science at Dr. MCET! 🎓",
+  "Specialized in PyTorch, OpenCV, FastAPI, and Deep Learning! ⚡",
+  "Featured Project: Semantic Grayscale Video Colorization using GANs! 🎨",
+  "Macvel Solutions Full-Time AI Internship completed! 💻",
+  "NSS Volunteer Coordinator & Active Community Member! 🏅"
+];
 
 export default function CyberPet() {
   const [currentMessage, setCurrentMessage] = useState(
-    "Hi! I'm Nexus 🐾 Scroll to explore with me!"
+    "Hi! I'm Nexus, your AI Cyber Pet! 🐾 Click me to play or ask me facts!"
   );
+  const [showBubble, setShowBubble] = useState(true);
   const [isSleeping, setIsSleeping] = useState(false);
   const [isWalking, setIsWalking] = useState(false);
-  const [hearts, setHearts] = useState<{ id: number; x: number; y: number }[]>(
-    []
-  );
-  const [petMood, setPetMood] = useState<"happy" | "excited" | "sleepy">("happy");
+  const [hearts, setHearts] = useState<{ id: number; x: number; y: number }[]>([]);
+  const [factIndex, setFactIndex] = useState(0);
 
   const idleTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const scrollTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const walkTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const wakeUp = useCallback(() => {
+    setIsSleeping(false);
+    setShowBubble(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
+      wakeUp();
       setIsWalking(true);
-      setIsSleeping(false);
-      setPetMood("excited");
 
-      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
-      scrollTimerRef.current = setTimeout(() => {
+      if (walkTimerRef.current) clearTimeout(walkTimerRef.current);
+      walkTimerRef.current = setTimeout(() => {
         setIsWalking(false);
-        setPetMood("happy");
-      }, 300);
+      }, 400);
 
-      // Detect active section
-      const sections = [
-        "home",
-        "about",
-        "education",
-        "skills",
-        "projects",
-        "certifications",
-        "github",
-        "contact"
-      ];
-      const scrollPosition = window.scrollY + 300;
-
-      for (const sectionId of sections) {
-        const el = document.getElementById(sectionId);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            const msgs = sectionMessages[sectionId];
-            if (msgs && msgs.length > 0) {
-              const randomMsg = msgs[Math.floor(Math.random() * msgs.length)];
-              setCurrentMessage(randomMsg);
-            }
-            break;
-          }
-        }
-      }
-
-      // Reset idle timer
+      // Reset sleeping timer (12s idle)
       if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
       idleTimerRef.current = setTimeout(() => {
         setIsSleeping(true);
-        setPetMood("sleepy");
-        setCurrentMessage("zZz... Sleeping mode activated. Scroll or click to wake me!");
-      }, 6000);
+        setCurrentMessage("zZz... Sleeping mode. Click or scroll to wake me up! 🌙");
+      }, 12000);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", handleScroll);
       if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
-      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
+      if (walkTimerRef.current) clearTimeout(walkTimerRef.current);
     };
-  }, []);
+  }, [wakeUp]);
 
-  const handlePetClick = (e: React.MouseEvent) => {
-    setIsSleeping(false);
-    setPetMood("excited");
+  const handlePat = (e: React.MouseEvent) => {
+    wakeUp();
     const rect = e.currentTarget.getBoundingClientRect();
     const newHeart = {
       id: Date.now(),
@@ -129,13 +66,32 @@ export default function CyberPet() {
     };
     setHearts((prev) => [...prev.slice(-4), newHeart]);
 
-    const clickMsgs = [
-      "Purrr... 💚 I love AI code!",
-      "Nexus is happy! Let's build AI models!",
-      "⚡ Cyber Pet Boost Activated!",
-      "You clicked me! 🐾 Happy coding!"
+    const happyMsgs = [
+      "Purrr... 💚 I love AI code & neural networks!",
+      "Nexus feels happy! Let me help you explore!",
+      "⚡ Cyber Pet energy boosted! 100% Online!",
+      "You patted Nexus! 🐾 Tamilarasan appreciates you!"
     ];
-    setCurrentMessage(clickMsgs[Math.floor(Math.random() * clickMsgs.length)]);
+    setCurrentMessage(happyMsgs[Math.floor(Math.random() * happyMsgs.length)]);
+  };
+
+  const handleAskFact = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    wakeUp();
+    const nextIdx = (factIndex + 1) % petFacts.length;
+    setFactIndex(nextIdx);
+    setCurrentMessage(petFacts[nextIdx]);
+  };
+
+  const toggleSleepMode = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isSleeping) {
+      wakeUp();
+      setCurrentMessage("Nexus is awake and ready to explore! 🚀");
+    } else {
+      setIsSleeping(true);
+      setCurrentMessage("zZz... Sleeping mode activated. 🌙");
+    }
   };
 
   return (
@@ -148,81 +104,152 @@ export default function CyberPet() {
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
-        gap: "10px",
-        pointerEvents: "none"
+        gap: "10px"
       }}
     >
-      {/* Speech Bubble */}
-      <div
-        className="glass"
-        style={{
-          pointerEvents: "auto",
-          padding: "10px 16px",
-          borderRadius: "16px",
-          border: "1px solid var(--glass-border)",
-          maxWidth: "250px",
-          fontSize: "12px",
-          fontFamily: "var(--font-mono)",
-          color: "var(--text)",
-          boxShadow: "0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(198,241,61,0.15)",
-          backdropFilter: "blur(16px)",
-          position: "relative",
-          animation: "float1 4s ease-in-out infinite",
-          lineHeight: "1.4"
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "3px" }}>
-          <span
-            style={{
-              width: "6px",
-              height: "6px",
-              borderRadius: "50%",
-              background: isSleeping ? "#EAB308" : "var(--accent)",
-              boxShadow: "0 0 8px var(--accent)"
-            }}
-          />
-          <span style={{ fontSize: "10px", color: "var(--accent)", fontWeight: 700 }}>
-            NEXUS {isSleeping ? "[ SLEEPING ]" : isWalking ? "[ EXPLORING ]" : "[ ONLINE ]"}
-          </span>
-        </div>
-        {currentMessage}
-        {/* Triangle arrow at bottom left */}
+      {/* Speech Bubble cleanly separated ABOVE the pet */}
+      {showBubble && (
         <div
+          className="glass"
           style={{
-            position: "absolute",
-            bottom: "-6px",
-            left: "24px",
-            width: 0,
-            height: 0,
-            borderLeft: "6px solid transparent",
-            borderRight: "6px solid transparent",
-            borderTop: "6px solid var(--glass-border)"
+            padding: "12px 16px",
+            borderRadius: "16px",
+            border: "1px solid var(--glass-border)",
+            width: "280px",
+            maxWidth: "calc(100vw - 48px)",
+            fontSize: "12px",
+            fontFamily: "var(--font-mono)",
+            color: "var(--text)",
+            boxShadow: "0 14px 35px rgba(0,0,0,0.6), 0 0 25px rgba(16,185,129,0.15)",
+            backdropFilter: "blur(20px)",
+            background: "rgba(17,21,30,0.9)",
+            marginBottom: "4px",
+            position: "relative",
+            lineHeight: "1.5"
           }}
-        />
-      </div>
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: "6px",
+              borderBottom: "1px solid var(--glass-border)",
+              paddingBottom: "4px"
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <span
+                style={{
+                  width: "7px",
+                  height: "7px",
+                  borderRadius: "50%",
+                  background: isSleeping ? "#EAB308" : "var(--accent)",
+                  boxShadow: "0 0 10px var(--accent)"
+                }}
+              />
+              <span style={{ fontSize: "10px", color: "var(--accent)", fontWeight: 700, letterSpacing: "0.5px" }}>
+                NEXUS {isSleeping ? "[ SLEEPING ]" : isWalking ? "[ EXPLORING ]" : "[ ONLINE ]"}
+              </span>
+            </div>
 
-      {/* Cyber Pet Pedestal & Character Container */}
+            <button
+              onClick={() => setShowBubble(false)}
+              style={{
+                background: "none",
+                border: "none",
+                color: "var(--text-dim)",
+                cursor: "pointer",
+                padding: "2px",
+                display: "flex",
+                alignItems: "center"
+              }}
+              title="Close bubble"
+            >
+              <X size={13} />
+            </button>
+          </div>
+
+          <p style={{ margin: 0, color: "var(--text)", fontSize: "12px" }}>
+            {currentMessage}
+          </p>
+
+          {/* Action Buttons Bar */}
+          <div
+            style={{
+              display: "flex",
+              gap: "6px",
+              marginTop: "10px",
+              paddingTop: "8px",
+              borderTop: "1px solid rgba(255,255,255,0.06)"
+            }}
+          >
+            <button
+              onClick={handleAskFact}
+              style={{
+                flex: 1,
+                padding: "4px 8px",
+                borderRadius: "8px",
+                background: "rgba(16,185,129,0.15)",
+                border: "1px solid rgba(16,185,129,0.3)",
+                color: "var(--accent)",
+                fontSize: "10px",
+                fontFamily: "var(--font-mono)",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "4px"
+              }}
+            >
+              <MessageSquare size={10} /> Fact
+            </button>
+
+            <button
+              onClick={toggleSleepMode}
+              style={{
+                padding: "4px 8px",
+                borderRadius: "8px",
+                background: "rgba(255,255,255,0.06)",
+                border: "1px solid var(--glass-border)",
+                color: "var(--text-dim)",
+                fontSize: "10px",
+                fontFamily: "var(--font-mono)",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "4px"
+              }}
+            >
+              {isSleeping ? <Sun size={10} /> : <Moon size={10} />} {isSleeping ? "Wake" : "Sleep"}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Cyber Pet Pedestal & Character Button */}
       <div
-        onClick={handlePetClick}
+        onClick={handlePat}
         style={{
-          pointerEvents: "auto",
           cursor: "pointer",
           position: "relative",
-          padding: "12px 16px",
-          borderRadius: "20px",
-          background: "rgba(17,21,30,0.75)",
+          padding: "10px 14px",
+          borderRadius: "18px",
+          background: "rgba(17,21,30,0.85)",
           border: "1px solid var(--glass-border)",
-          backdropFilter: "blur(16px)",
+          backdropFilter: "blur(20px)",
           boxShadow: "0 12px 35px rgba(0,0,0,0.6)",
           display: "flex",
           alignItems: "center",
           gap: "12px",
-          transition: "transform 0.2s ease, border-color 0.2s ease"
+          transition: "transform 0.2s ease, border-color 0.2s ease",
+          userSelect: "none"
         }}
         onMouseEnter={(e) => (e.currentTarget.style.transform = "translateY(-4px)")}
         onMouseLeave={(e) => (e.currentTarget.style.transform = "translateY(0)")}
       >
-        {/* Floating Heart Effect */}
+        {/* Floating Hearts */}
         {hearts.map((h) => (
           <div
             key={h.id}
@@ -240,18 +267,18 @@ export default function CyberPet() {
           </div>
         ))}
 
-        {/* Cyber Cat SVG Illustration */}
+        {/* Cyber Cat Animated SVG Icon */}
         <div
           style={{
-            width: "44px",
-            height: "44px",
+            width: "40px",
+            height: "40px",
             position: "relative",
             animation: isWalking
-              ? "heroFloat 0.6s ease-in-out infinite"
+              ? "heroFloat 0.5s ease-in-out infinite"
               : "heroFloat 4s ease-in-out infinite"
           }}
         >
-          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="44" height="44">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
             {/* Cat Ears */}
             <path d="M14 22L22 6L30 20Z" fill="url(#petGrad)" stroke="var(--accent)" strokeWidth="1.5" />
             <path d="M50 22L42 6L34 20Z" fill="url(#petGrad)" stroke="var(--accent)" strokeWidth="1.5" />
@@ -275,7 +302,7 @@ export default function CyberPet() {
               strokeWidth="1.5"
             />
 
-            {/* Visor Eyes / LED */}
+            {/* Visor Eye LED */}
             {isSleeping ? (
               <text x="24" y="35" fill="#EAB308" fontSize="9" fontFamily="monospace">
                 zZz
@@ -289,7 +316,7 @@ export default function CyberPet() {
               </>
             )}
 
-            {/* Cute Whisker Lines */}
+            {/* Whiskers */}
             <line x1="8" y1="34" x2="15" y2="33" stroke="var(--accent)" strokeWidth="1.5" opacity="0.7" />
             <line x1="8" y1="38" x2="15" y2="37" stroke="var(--accent)" strokeWidth="1.5" opacity="0.7" />
             <line x1="56" y1="34" x2="49" y2="33" stroke="var(--accent)" strokeWidth="1.5" opacity="0.7" />
@@ -299,7 +326,7 @@ export default function CyberPet() {
             <polygon points="32,38 30,41 34,41" fill="var(--accent)" />
             <path d="M29 43C30 45 31 45 32 44C33 45 34 45 35 43" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" />
 
-            {/* Animated Tail */}
+            {/* Tail */}
             <path
               d="M50 44C56 46 58 52 54 58"
               stroke="var(--accent)"
@@ -322,13 +349,13 @@ export default function CyberPet() {
           </svg>
         </div>
 
-        {/* Pet Name & Badge Info */}
+        {/* Pet Title & Info */}
         <div>
           <div style={{ fontSize: "12px", fontWeight: 700, fontFamily: "var(--font-mono)", color: "var(--text)" }}>
             NEXUS <Sparkles size={11} style={{ display: "inline", color: "var(--accent)" }} />
           </div>
-          <div style={{ fontSize: "10.5px", fontFamily: "var(--font-mono)", color: "var(--text-dim)" }}>
-            {isSleeping ? "Sleeping Mode" : isWalking ? "Following Scroll" : "Click to Play!"}
+          <div style={{ fontSize: "10px", fontFamily: "var(--font-mono)", color: "var(--text-dim)" }}>
+            {isSleeping ? "Sleeping Mode" : isWalking ? "Following Scroll" : "Click to Pat 🐾"}
           </div>
         </div>
       </div>
